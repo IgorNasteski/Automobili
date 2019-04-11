@@ -18,16 +18,20 @@ public class MetodeJdbc {
 		return DriverManager.getConnection(URL, USER, PASSWORD);
 	}
 	
-	public void updateTabele(String nazivBaze, String nazivTabele, String ime) {
+	public void insertUTabelu(String nazivBaze, String nazivTabele, String ime, String zemlja) {
 		
 		Connection konekcija = null;
 		PreparedStatement pst = null;
 		
 		try {
 			konekcija = konektujSe(nazivBaze);
-			String query = "UPDATE " + nazivTabele + " SET ime = ?";
-			pst.setString(1, ime);
+			String query = "INSERT INTO " + nazivTabele + " VALUES(null,?,?)";
 			pst = konekcija.prepareStatement(query);
+			pst.setString(1, ime);
+			pst.setString(2, zemlja);
+			pst.executeUpdate();
+			System.out.println("Uspesno ste uneli korisnika u tabelu!");	
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
